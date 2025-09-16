@@ -1,0 +1,33 @@
+*{
+    box-sizing: border-box;
+}
+html, body{
+    height: 100%;
+    margin: 0;
+    font-family: Inter, system-ui, Arial, sans-serif;
+}
+body{
+    background: #0f1220;
+    color: #e9ecff;
+    display: grid;
+    place-items: center;
+}
+.app {
+    width: min(900px, 92vw);
+    height: min(720px, 92vw);
+    background: #121736;
+    border: 1px solid #1f2550;
+    border-radius: 16px;
+    display: grid;
+    grid-template-rows: 56px 1fr 64px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .35);
+}
+.topbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    background: #0f1430;
+    border-bottom: 1px solid #1f2550;
+}
