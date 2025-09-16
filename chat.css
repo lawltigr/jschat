@@ -31,3 +31,35 @@ body{
     background: #0f1430;
     border-bottom: 1px solid #1f2550;
 }
+.topbar h1{
+    font-size: 16px;
+    margin: 0;
+}
+.topbar button{
+    background: #222b66;
+    color: #e9ecff;
+    border: 1px solid #3a4494;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.topbar button:hover{
+    background: #2b3580;
+}
+.chat{
+    padding: 14px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.msg{
+    max-width: 70%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    line-height: 1.35;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, .08);
+}
