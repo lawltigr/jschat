@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="chat.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app">
+        <header class="topbar">
+            <h1>Mini chat</h1>
+            <button class="clearBtn" title="Clear the chat">Clear</button>
+        </header>
+        <main id="chat" class="chat" aria-live="polite"></main>
+        <form id="form" class="composer" autocomplete="off">
+            <input type="text" id="input" placeholder="Type the message" required/>
+            <button type="submit">Send</button>
+        </form>
+
+    </div>
+    <script src="chat.js"></script>
+</body>
+</html>
