@@ -4,6 +4,27 @@ const inputEl = document.getElementById('input');
 const clearBtn = document.getElementById('clearBtn');
 const STORE_KEY = 'mini_chat_messages_v1';
 
+const AI_ENABLED_KEY = 'mini_chat_ai_enabled';
+const API_KEY_KEY = 'mini_chat_api_key';
+const API_URL = 'https://api.openai.com/v1/chat/completions'
+const MODEL_NAME = 'gpt-4o-mini';
+
+function getApiKey() {
+    return localStorage.getItem(API_KEY_KEY) || '';
+}
+function setApiKey(k){
+    localStorage.setItem(API_KEY_KEY, k.trim());
+}
+
+function isAIEnabled(){
+    return localStorage.getItem(AI_ENABLED_KEY) === '1';
+}
+function setAiEnabled(on){
+    localStorage.setItem(AI_ENABLED_KEY, on ? '1' : '0');
+    document.getElementById(toggleAiBtn)
+    .textContent = 'AI: ' + (on ? 'On' : 'Off');
+}
+
 function save_messages(list){
     localStorage.setItem(STORE_KEY, JSON.stringify(list));
 }

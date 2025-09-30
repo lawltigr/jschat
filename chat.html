@@ -10,7 +10,11 @@
     <div class="app">
         <header class="topbar">
             <h1>Mini chat</h1>
-            <button class="clearBtn" id="clearBtn" title="Clear the chat">Clear</button>
+            <div class="actions">
+                <button id="toggleAiBtn" title="Turn AI on/off">AI: Off</button>
+                <button id="setupKeyBtn" title="Input API key">API Key</button>
+                <button class="clearBtn" id="clearBtn" title="Clear the chat">Clear</button>
+            </div>
         </header>
         <main id="chat" class="chat" aria-live="polite"></main>
         <form id="form" class="composer" autocomplete="off">
