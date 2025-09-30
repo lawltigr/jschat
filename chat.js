@@ -32,7 +32,7 @@ function renderMsg(msg){
     const div = document.createElement('div');
     div.className = `msg ${msg.role}`;
     div.innerHTML = `<div class="text">${escapeHtml(msg.text)}</div>
-    <div class="meta">${msg.role === 'user'? 'you' : 'bot'}*${fmtTime(msg.time)}</div>`;
+    <div class="meta">${msg.role === 'user'? 'you' : 'bot'} @ ${fmtTime(msg.time)}</div>`;
     chatEl.appendChild(div);
 }
 function renderAll(list){
@@ -66,7 +66,7 @@ function addUserMessage(text){
     renderMsg(msg);
     scrollToBottom();
 }
-function addUserMessage(text){
+function addBotMessage(text){
     const msg = { role: 'bot', text, time: Date.now() };
     messages.push(msg);
     save_messages(messages);
@@ -97,7 +97,7 @@ function generateReply(t){
 }
 formEl.addEventListener('submit', (e)=>{
     e.preventDefault();
-    const text = inputEl.ariaValueMax.trim();
+    const text = inputEl.value.trim();
     if (!text) return;
     addUserMessage(text);
     inputEl.value = '';
