@@ -8,6 +8,25 @@ const AI_ENABLED_KEY = 'mini_chat_ai_enabled';
 const API_KEY_KEY = 'mini_chat_api_key';
 const API_URL = 'https://api.openai.com/v1/chat/completions'
 const MODEL_NAME = 'gpt-4o-mini';
+const toggleAiBtn = document.getElementById('toggleAiBtn');
+const setupKeyBtn = document.getElementById('setupKeyBtn');
+
+setAiEnabled(isAiEnabled());
+toggleAiBtn.addEventListener('click', () =>{
+    const on = !isAiEnabled();
+    if (on && !getApiKey()){
+        const k = prompt('Add API key (it will be saved into localStorage):', '');
+        if (!k) return;
+        setApiKey(k);
+    }
+    setAiEnabled(on);
+});
+
+setupKeyBtn.addEventListener('click', () => {
+    const current = getApiKey();
+    const k = prompt('API key (it will be saved into localStorage:', current);
+    if (k != null) setApiKey(k);
+});
 
 function getApiKey() {
     return localStorage.getItem(API_KEY_KEY) || '';
@@ -16,7 +35,7 @@ function setApiKey(k){
     localStorage.setItem(API_KEY_KEY, k.trim());
 }
 
-function isAIEnabled(){
+function isAiEnabled(){
     return localStorage.getItem(AI_ENABLED_KEY) === '1';
 }
 function setAiEnabled(on){
@@ -94,13 +113,25 @@ function addBotMessage(text){
     renderMsg(msg);
     scrollToBottom();
 }
-function simulateBotReply(userText){
+async function simulateBotReply(userText){
+    if (!isAiEnabled() || !getApiKey()){
+        showTyping();
+        setTimeout(()=>{
+            hideTyping();
+            const reply = generateReply(userText);
+            addBotMessage(reply);
+        }, 600 + Math.random()*600);
+        return;
+    }
     showTyping();
-    setTimeout(()=>{
+    try{
+        const ai = await callAiChat(userText);
         hideTyping();
-        const reply = generateReply(userText);
-        addBotMessage(reply);
-    }, 600 + Math.random()*600);
+        addBotMessage(ai);
+    } catch (err){
+        hideTyping();
+        addBotMessage('⚠️ AI error: ' + (err.message || 'request failed'));
+    }
 }
 function generateReply(t){
     const s = t.toLowerCase();
@@ -137,3 +168,40 @@ clearBtn.addEventListener('click', () => {
         chatEl.innerHTML = '';
     }
 });
+
+async function callAiChat(userText){
+    const apiKey = getApiKey();
+    if (!apiKey) throw new Error('No API key');
+    const body = {
+        model: MODEL_NAME,
+        messages: [
+            { role: 'system', content: 'You are a helpful conversational assistant. Keep answers brief.'},
+            ...lastMessagesAsOpenAI(5),
+            { role: 'user', content: userText }
+        ],
+        temperature: 0.7
+    }
+    const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + apiKey,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+    if (!res.ok){
+        const text = await res.text().catch(()=>'');
+        throw new Error(`HTTP ${res.status} ${res.statusText} ${text}`);
+    }
+    const data = await res.json();
+    const content = data.choices?.[0]?.message?.content?.trim();
+    if (!content) throw new Error('Empty response');
+    return content;
+}
+function lastMessagesAsOpenAI(n){
+    const tail = messages.slice(-n);
+    return tail.map(m => ({
+        role: m.role === 'user' ? 'user' : 'assistant',
+        content: m.text
+    }));
+}
