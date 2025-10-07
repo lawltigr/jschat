@@ -40,8 +40,7 @@ function isAiEnabled(){
 }
 function setAiEnabled(on){
     localStorage.setItem(AI_ENABLED_KEY, on ? '1' : '0');
-    document.getElementById(toggleAiBtn)
-    .textContent = 'AI: ' + (on ? 'On' : 'Off');
+    toggleAiBtn.textContent = 'AI: ' + (on ? 'On' : 'Off');
 }
 
 function save_messages(list){
