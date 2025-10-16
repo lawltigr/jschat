@@ -6,8 +6,10 @@ const STORE_KEY = 'mini_chat_messages_v1';
 
 const AI_ENABLED_KEY = 'mini_chat_ai_enabled';
 const API_KEY_KEY = 'mini_chat_api_key';
-const API_URL = 'https://api.openai.com/v1/chat/completions'
-const MODEL_NAME = 'gpt-4o-mini';
+const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+// const MODEL_NAME = 'gpt-4o-mini';
+// const MODEL_NAME = 'mistralai/mistral-7b-instruct';
+const MODEL_NAME = 'meta-llama/llama-3-8b-instruct';
 const toggleAiBtn = document.getElementById('toggleAiBtn');
 const setupKeyBtn = document.getElementById('setupKeyBtn');
 
